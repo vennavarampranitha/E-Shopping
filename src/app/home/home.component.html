@@ -1,0 +1,34 @@
+<div class="container">
+
+  <div class="row justify-content-around">
+    <div class="col-4" *ngFor="let item of items">
+      <mat-card class="m-2">
+        <img [routerLink]="['shop',item.upc]" (error)="replaceImg(item)" height="300px" *ngIf="item.image else holder"
+             mat-card-image [src]="item.image"
+             alt="Image Broken">
+        <mat-card-content>
+          <p>
+            {{(item.description | slice:0:100) + '...'}}
+          </p>
+        </mat-card-content>
+        <mat-card-header [routerLink]="['shop',item.upc]">
+          <mat-card-title>
+            {{item.name}}
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{item.manufacturer}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button (click)="data.addToCart(item)" class="mr-1" mat-raised-button
+                  color="accent">{{data.inCart(item.upc) ? 'Added' : 'Add to Cart'}}</button>
+          <button class="mr-1" mat-stroked-button color="accent">Add To Wish List</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #holder>
+  <img src="http://lorempixel.com/g/400/200" alt="">
+</ng-template>

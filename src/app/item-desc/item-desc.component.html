@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <div *ngIf="currItem" class="row">
+    <div class="col-6">
+      <img class="w-100" *ngIf="currItem" [src]="currItem.image" alt="Image">
+    </div>
+    <div class="col-6">
+      <h4>{{currItem.name}}</h4>
+      <mat-divider></mat-divider>
+      <div class="ml-2">
+        <p>
+          <span class="font-weight-bold">Manufacturer :</span> {{currItem.manufacturer}}
+        </p>
+        <p>
+          <span class="font-weight-bold">Description:</span> {{currItem.description}}
+        </p>
+        <p>
+          <span class="font-weight-bold">Model:</span> {{currItem.model}}
+        </p>
+        <p>
+          <span class="font-weight-bold">Price:</span> {{currItem.price | currency }}
+        </p>
+      </div>
+      <mat-action-row>
+        <button (click)="data.addToCart(currItem)" class="mr-3" mat-raised-button
+                color="accent">{{data.inCart(currItem.upc) ? 'Added' : 'Add to Cart'}}</button>
+        <button class="mr-3" mat-stroked-button color="accent">Add To Wish List</button>
+      </mat-action-row>
+    </div>
+  </div>
+</div>
