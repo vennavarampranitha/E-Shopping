@@ -4,6 +4,7 @@ export interface Product {
   type: string;
   price: number;
   upc: string;
+  quantity?: number;
   category: Category[];
   shipping: number;
   description: string;

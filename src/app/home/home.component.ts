@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   replaceImg(item: Product) {
-    console.log('Reaplce');
+    console.log('Replace');
     item.image = 'http://lorempixel.com/g/400/200';
   }
 }

@@ -18,10 +18,11 @@ export class ItemDescComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.params.id;
-    console.log(id);
-    this.data.getItem(id).subscribe(val => {
-      this.currItem = val;
+    const id = this.route.params.subscribe(param => {
+      console.log(param.id);
+      this.data.getItem(param.id).subscribe(val => {
+        this.currItem = val;
+      });
     });
   }
 }

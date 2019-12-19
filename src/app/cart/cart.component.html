@@ -1,5 +1,10 @@
 <div class="container">
   <div *ngFor="let item of data.cartProducts">
-    {{item.name}}
+    <div class="mt-4">
+      <app-cart-item (eCost)="sumCost($event)" [item]="item"></app-cart-item>
+    </div>
+  </div>
+  <div class="p-4 row float-right">
+    Total Cost:  <span class="font-weight-bolder">{{totalCost | currency}}</span>
   </div>
 </div>

@@ -4,6 +4,7 @@ import {Product} from './Product';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -14,27 +15,36 @@ export class ProductsService {
   cartProducts: Product[] = [];
 
   constructor(
-    private http: HttpClient,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    private afs: AngularFirestore
   ) {
-    this.products = this.http.get<Product[]>('./assets/products.json');
-    this.products
-      .subscribe(data => {
-        console.log('Data Http ', data[Math.floor(Math.random() * 100)]);
+
+    if (JSON.parse(localStorage.getItem('cart')) as Product[]) {
+      this.cartProducts = JSON.parse(localStorage.getItem('cart')) as Product[];
+      this.cartProducts.forEach(item => {
+        this.cart.push(item.upc);
       });
+    }
+    this.products = this.afs.collection<Product>('Products', ref => ref.limit(50)).valueChanges();
   }
 
   getProducts(x?: number): Observable<Product[]> {
-    return this.products.pipe(
-      map(data => {
-        return data.sort(() => {
-          return .5 - Math.random();
-        }).slice(x, x + 50);
-      })
-    );
+    return this.products;
+  }
+
+  removeFromCart(item: Product) {
+    console.log('Removed Item from cart');
+    this.cartProducts = this.cartProducts.filter(prod => {
+      return prod.upc !== item.upc;
+    });
+    this.cart = this.cart.filter(str => {
+      return str !== item.upc;
+    });
+    localStorage.setItem('cart', JSON.stringify(this.cartProducts));
   }
 
   async addToCart(item: Product) {
+    item.quantity = 1;
     if (!this.cart.includes(item.upc)) {
       this.cart.push(item.upc);
     } else {
@@ -43,6 +53,8 @@ export class ProductsService {
       });
     }
     this.cartProducts.push(item);
+    localStorage.setItem('cart', JSON.stringify(this.cartProducts));
+
   }
 
   inCart(item: string) {

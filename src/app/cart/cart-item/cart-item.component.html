@@ -1,0 +1,22 @@
+<div class="w-100">
+  <div class="row">
+    <div class="col-4">
+      <img height="200px" [src]="item.image" alt="Image">
+    </div>
+    <div class="col-8">
+      <h5>{{item.name}}</h5>
+      Item Cost <h6>{{item.price | currency}}</h6>
+
+      <button (click)="data.removeFromCart(item)" mat-stroked-button color="warn">Remove Item</button>
+
+      <div class="row float-right">
+        <mat-form-field appearance="legacy">
+          <mat-label>Quantity</mat-label>
+          <input (ngModelChange)="sendTot()" width="20px" type="number" matInput name="quantity" [(ngModel)]="quantity">
+        </mat-form-field>
+        <mat-label>Cost</mat-label>
+        <h6>{{item.price * quantity | currency}}</h6>
+      </div>
+    </div>
+  </div>
+</div>
