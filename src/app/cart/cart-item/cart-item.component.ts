@@ -11,6 +11,7 @@ export class CartItemComponent implements OnInit {
   @Input() item: Product;
   quantity = 1;
   @Output() eCost = new EventEmitter<Product>();
+  @Output() removed = new EventEmitter();
 
   constructor(
     private data: ProductsService
@@ -18,7 +19,6 @@ export class CartItemComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.eCost.emit(this.item);
   }
 

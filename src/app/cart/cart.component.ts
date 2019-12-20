@@ -25,13 +25,20 @@ export class CartComponent implements OnInit {
     this.cartItems[item.upc] = item;
     if (item.quantity <= 0) {
       this.data.removeFromCart(item);
+      delete this.cartItems[item.upc];
       console.log('Remove item from Cart');
     } else {
       console.log('Received Data in Cart ', item);
       console.log('Cart Items ', this.cartItems);
     }
-    this.totalCost = Object.keys(this.cartItems).reduce((a, b) => a + this.cartItems[b].quantity * this.cartItems[b].price, 0);
+    this.updatePrice();
     console.log('Total Cost ', this.totalCost);
     console.log('Cart Items ', this.cartItems);
   }
+
+  updatePrice() {
+    this.totalCost = Object.keys(this.cartItems).reduce((a, b) => a + this.cartItems[b].quantity * this.cartItems[b].price, 0);
+
+  }
+
 }
